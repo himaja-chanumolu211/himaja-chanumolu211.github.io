@@ -1,56 +1,25 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <script>
-        window.addEventListener("onEmbeddedMessagingButtonCreated", (event) => {
-            console.log("Received the onEmbeddedMessagingButtonCreated event…");
-            console.log("Event detail: ", event.detail);
-            embeddedservice_bootstrap.utilAPI.hideChatButton();
-            // Do something...
-        });
-    </script>
-    <button id="launchChatButton" onclick="launchChat()">Click to contact support</button>
     <script type='text/javascript'>
-        function initEmbeddedMessaging() {
-            try {
-                embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
-                //embeddedservice_bootstrap.settings.hideChatButtonOnLoad = true;
-                embeddedservice_bootstrap.init(
-                    '00DKd0000051rby',
-                    'SDO_Messaging_for_Web',
-                    'https://hchanumolu-241027-119-demo.my.site.com/ESWSDOMessagingforWeb1730030041874',
-                    {
-                        scrt2URL: 'https://hchanumolu-241027-119-demo.my.salesforce-scrt.com'
-                    }
-                );
-            } catch (err) {
-                console.error('Error loading Embedded Messaging: ', err);
-            }
-        };
-    </script>
-    <script>
-        function launchChat() {
-            embeddedservice_bootstrap.utilAPI.launchChat()
-                .then(() => {
-                    // Success handler used to perform actions
-                    // when the chat client launches successfully.
-                    // For example, create a method that disables the launch chat button.
-                    //disableLaunchChatButton();
-                }).catch(() => {
-                    // Error handler used to perform actions
-                    // if the chat client fails to launch.
-                    // For example, create a method that hides the launch chat button.
-                    //hideLaunchChatButton();
-                }).finally(() => {
-                    // Finally handler used to perform any clean-up actions
-                    // regardless of whether the chat client launches successfully or not.
-                    // For example, create a method that logs the user’s attempt to chat.
-                    //logEndUserAttemptToChat();
-                });
-        }
-    </script>
-    <script type='text/javascript'
-        src='https://hchanumolu-241027-119-demo.my.site.com/ESWSDOMessagingforWeb1730030041874/assets/js/bootstrap.min.js'
-        onload='initEmbeddedMessaging()'></script>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+			embeddedservice_bootstrap.init(
+				'00DIc000000H5X5',
+				'Messaging_For_Web',
+				'https://trailsignup-601dd925192baf.my.site.com/ESWMessagingForWeb1754646170687',
+				{
+					scrt2URL: 'https://trailsignup-601dd925192baf.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://trailsignup-601dd925192baf.my.site.com/ESWMessagingForWeb1754646170687/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+
 </body>
 </html>
