@@ -22,66 +22,7 @@
 	</script>
 
 	<!-- ↓↓↓ ADD THIS IMMEDIATELY AFTER ↓↓↓ -->
-	<script>
-		(function () {
-			'use strict';
-
-			var _messagingSessionId = null;
-
-			// 1. Capture MessagingSession Id when the conversation is routed
-			window.addEventListener('onEmbeddedMessagingConversationRouted', function (event) {
-				console.log('[MIAW Bridge] ConversationRouted:', JSON.stringify(event.detail));
-				var sessionId = _extractSessionId(event.detail);
-				if (sessionId) {
-					_messagingSessionId = sessionId;
-					console.log('[MIAW Bridge] messagingSessionId:', _messagingSessionId);
-					_pushToFrame();
-				}
-			});
-
-			// 2. When LWC signals it's ready — reply if we already have the ID
-			window.addEventListener('message', function (event) {
-				if (event.data && event.data.type === 'MIAW_HEADER_READY') {
-					console.log('[MIAW Bridge] LWC ready');
-					if (_messagingSessionId) {
-						event.source.postMessage(
-							{type: 'MIAW_SESSION_ID', messagingSessionId: _messagingSessionId},
-							event.origin
-						);
-					}
-				}
-			});
-
-			// Push to the MIAW iframe by its known stable id
-			function _pushToFrame() {
-				var iframe = document.getElementById('embeddedMessagingFrame');
-				if (iframe && iframe.contentWindow) {
-					iframe.contentWindow.postMessage(
-						{type: 'MIAW_SESSION_ID', messagingSessionId: _messagingSessionId},
-						'*'
-					);
-					console.log('[MIAW Bridge] Pushed to embeddedMessagingFrame');
-				}
-			}
-
-			// Extract recordId from the CONVERSATION_ROUTING_RESULT SSE payload
-			// Handles both pre-parsed object and stringified JSON cases
-			function _extractSessionId(detail) {
-				if (!detail) return null;
-				if (detail.conversationEntry) {
-					var e = detail.conversationEntry;
-					if (e.entryPayload && typeof e.entryPayload === 'object' && e.entryPayload.recordId)
-						return e.entryPayload.recordId;
-					if (e.entryPayload && typeof e.entryPayload === 'string') {
-						try {var p = JSON.parse(e.entryPayload); if (p.recordId) return p.recordId;} catch (_) { }
-					}
-					if (e.recordId) return e.recordId;
-				}
-				if (detail.recordId) return detail.recordId;
-				return null;
-			}
-		})();
-	</script>
+	
 
 
 </body>
